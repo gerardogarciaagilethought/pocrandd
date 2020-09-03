@@ -15,5 +15,9 @@ variables:
 steps:
 - script: cd src
   displayName: 'cd src'
+- script: pwd
+  displayName: 'pwd'
+- script: ls -l
+  displayName: 'ls -l'
 - script: dotnet build 
   displayName: 'dotnet build'
