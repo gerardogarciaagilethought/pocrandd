@@ -16,4 +16,4 @@ steps:
 - script: cd src
   displayName: 'cd src'
 - script: dotnet build 
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet build'
