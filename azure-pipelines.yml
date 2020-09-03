@@ -13,8 +13,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: cd src/src
-  displayName: 'cd src/src'
+- script: cd srcc
+  displayName: 'cd src'
+- script: pwd
+  displayName: 'pwd'
+- script: ls -l
+  displayName: 'ls -l'
+- script: cd srcc
+  displayName: 'cd src'
 - script: pwd
   displayName: 'pwd'
 - script: ls -l
