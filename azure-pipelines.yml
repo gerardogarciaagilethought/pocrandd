@@ -13,7 +13,8 @@ variables:
   buildConfiguration: 'Release'
   labelAnalysis: 'Hola'
   fecha: $(Date:yyyyMMdd)
+  name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
 
 steps:
-- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}${{ variables.fecha }}
+- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}${{ variables.name }}
   displayName: 'Imprimir variable'
