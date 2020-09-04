@@ -23,7 +23,7 @@ steps:
   displayName: 'Iniciar análisis Sonar'
 - script: dotnet --info
   displayName: 'Info .net core'
-- script: dotnet build src --configuration $(buildConfiguration)
+- script: sudo dotnet build src --configuration $(buildConfiguration)
   displayName: 'Build de la solución'
 - script: dotnet sonarscanner end
   displayName: 'Finalizar análisis Sonar'
