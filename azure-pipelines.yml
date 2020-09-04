@@ -14,5 +14,5 @@ variables:
   labelAnalysis: $(Date:yyyyMMddHHmmss)
 
 steps:
-- script: echo $(labelAnalysis)
+- script: echo ${{ variables.labelAnalysis }}
   displayName: 'Imprimir variable'
