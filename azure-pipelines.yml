@@ -21,9 +21,9 @@ steps:
   displayName: 'Preparar Token Sonar'
 - script: sudo dotnet sonarscanner begin /o:gerardoat /k:gerardoat_pocrandd /d:sonar.host.url=https://sonarcloud.io /version:AzurePipelines
   displayName: 'Iniciar análisis Sonar'
-- script: echo $SONAR_TOKEN
+- script: sudo echo $SONAR_TOKEN --preserve-env=SONAR_TOKEN
   displayName: 'Info token'
 - script: sudo dotnet build src --configuration $(buildConfiguration)
   displayName: 'Build de la solución'
-- script: sudo dotnet sonarscanner end
+- script: sudo dotnet sonarscanner end --preserve-env=SONAR_TOKEN
   displayName: 'Finalizar análisis Sonar'
