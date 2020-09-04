@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  labelAnalysis: $(Date:yyyyMMdd)
+  labelAnalysis: 'Hola'
 
 steps:
 - script: echo ${{ variables.labelAnalysis }}
