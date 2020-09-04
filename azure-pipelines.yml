@@ -12,9 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   labelAnalysis: 'Hola'
-  fecha: $(Date:yyyyMMdd)
-  name: format('{0:yyyyMMdd}', pipeline.startTime)
 
 steps:
-- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}${{ variables.name }}
+- script: echo format('{0:yyyyMMdd}', pipeline.startTime)
   displayName: 'Imprimir variable'
