@@ -13,7 +13,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet tool install --global dotnet-sonarscanner --version 4.10.0
+- script: sudo dotnet tool install --global dotnet-sonarscanner --version 4.10.0
   displayName: 'Instalación SonarScanner'
 - script: export SONAR_TOKEN=c6e9bac5249c3e7c9e829b92499f6f0dfe1fe884
   displayName: 'Preparar Token Sonar'
