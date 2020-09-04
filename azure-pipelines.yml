@@ -11,8 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  labelAnalysis: ${{format('{0:yyyyMMdd}', pipeline.startTime)}}
 
 steps:
-- script: echo $labelAnalysis
+- script: echo ${{format('{0:yyyyMMdd}', pipeline.startTime)}}
   displayName: 'Imprimir variable'
