@@ -13,5 +13,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build src
+- script: dotnet build src --configuration $(buildConfiguration)
   displayName: 'Build de la solución'
