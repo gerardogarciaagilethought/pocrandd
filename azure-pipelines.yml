@@ -12,7 +12,8 @@ pool:
 variables:
   buildConfiguration: 'Release'
   labelAnalysis: 'Hola'
+  fecha: $(Date:yyyyMMdd)
 
 steps:
-- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}
+- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}${{ variables.fecha }}
   displayName: 'Imprimir variable'
