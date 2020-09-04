@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-
+  projPath: 'src/PocRandD/PocRandD.csproj'
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet build $(projPath) --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
