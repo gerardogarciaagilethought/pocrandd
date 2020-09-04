@@ -14,5 +14,5 @@ variables:
   labelAnalysis: 'Hola'
 
 steps:
-- script: echo ${{ variables.labelAnalysis }}
+- script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}
   displayName: 'Imprimir variable'
