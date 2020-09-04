@@ -13,7 +13,7 @@ variables:
   buildConfiguration: 'Release'
   labelAnalysis: 'Hola'
   fecha: $(Date:yyyyMMdd)
-  name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+  name: format('{0:yyyyMMdd}', pipeline.startTime)
 
 steps:
 - script: echo ${{ variables.labelAnalysis }}${{ variables.buildConfiguration }}${{ variables.name }}
