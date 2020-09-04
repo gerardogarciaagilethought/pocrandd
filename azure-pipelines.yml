@@ -25,5 +25,5 @@ steps:
   displayName: 'Info token'
 - script: sudo dotnet build src --configuration $(buildConfiguration)
   displayName: 'Build de la solución'
-- script: sudo dotnet sonarscanner end --preserve-env=SONAR_TOKEN
+- script: sudo SONAR_TOKEN=c6e9bac5249c3e7c9e829b92499f6f0dfe1fe884 dotnet sonarscanner end
   displayName: 'Finalizar análisis Sonar'
