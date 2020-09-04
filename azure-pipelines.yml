@@ -11,11 +11,12 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  labelAnalysis: $(Date:yyyyMMddHHmmss)
 
 steps:
 - script: sudo dotnet tool install --tool-path=/usr/bin dotnet-sonarscanner --version 4.10.0
   displayName: 'Instalación SonarScanner'
-- script: sudo dotnet sonarscanner begin /o:gerardoat /k:gerardoat_pocrandd /d:sonar.host.url=https://sonarcloud.io /version:AzurePipelines$(Date:yyyyMMddHHmmss)
+- script: sudo dotnet sonarscanner begin /o:gerardoat /k:gerardoat_pocrandd /d:sonar.host.url=https://sonarcloud.io /version:AzurePipelines$(labelAnalysis)
   displayName: 'Iniciar análisis Sonar'
 - script: sudo dotnet build src --configuration $(buildConfiguration)
   displayName: 'Build de la solución'
