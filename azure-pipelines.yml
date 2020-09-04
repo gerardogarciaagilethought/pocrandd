@@ -13,5 +13,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build src
-  displayName: 'dotnet build'
+- script: dotnet tool install --global dotnet-sonarscanner --version 4.10.0
+  displayName: 'Instalación SonarScanner'
+- script: export SONAR_TOKEN=c6e9bac5249c3e7c9e829b92499f6f0dfe1fe884
+  displayName: 'Preparar Token Sonar'
+- script: dotnet sonarscanner begin /o:gerardoat /k:gerardoat_pocrandd /d:sonar.host.url=https://sonarcloud.io /version:AzurePipelines
+  displayName: 'Iniciar análisis Sonar'
+- script: dotnet build src --configuration $(buildConfiguration)
+  displayName: 'Build de la solución'
+- script: dotnet sonarscanner end
+  displayName: 'Finalizar análisis Sonar'
+
