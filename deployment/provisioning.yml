@@ -1,7 +1,14 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
 - task: PowerShell@2
   inputs:
     targetType: 'filePath'
-    filePath: $(System.DefaultWorkingDirectory)\provisioning.ps1
+    filePath: $(System.DefaultWorkingDirectory)\provisioning.ps
     arguments: > # Use this to avoid newline characters in multiline string
       -input1 "Hello"
       -input2 "World"
