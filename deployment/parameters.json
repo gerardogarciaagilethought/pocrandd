@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "value": "8b15cf93-6652-41ed-bae1-211e7f3a24bf"
+        },
+        "name": {
+            "value": null
+        },
+        "location": {
+            "value": "South Central US"
+        },
+        "hostingPlanName": {
+            "value": "ASP-ControlesVolumetricosRVE-8fe7"
+        },
+        "serverFarmResourceGroup": {
+            "value": "ControlesVolumetricos-RVE"
+        },
+        "alwaysOn": {
+            "value": false
+        },
+        "sku": {
+            "value": "Free"
+        },
+        "skuCode": {
+            "value": "F1"
+        },
+        "workerSize": {
+            "value": "0"
+        },
+        "workerSizeId": {
+            "value": "0"
+        },
+        "numberOfWorkers": {
+            "value": "1"
+        },
+        "linuxFxVersion": {
+            "value": "DOTNETCORE|3.1"
+        }
+    }
+}
