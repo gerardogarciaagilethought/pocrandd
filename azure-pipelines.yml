@@ -23,19 +23,9 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: '**/*.csproj'
-    arguments: '-o $(Build.ArtifactStagingDirectory)/Output'
+    projects: 'src/PocRandD/PocRandD.csproj'
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
-    modifyOutputPath: true
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    azureSubscription: 'Suscripción de Visual Studio Enterprise - MPN (e8747b6c-39ad-4039-a5b4-d170ef319068)'
-    ConnectionType: 'AzureRM'
-    appType: 'webAppLinux'
-    WebAppName: 'pocranddapp'
-    deployToSlotOrASE: true
-    ResourceGroupName: 'rgp-pocrandd'
-    SlotName: 'production'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    RuntimeStack: 'DOTNETCORE|3.1'
+    
+- task: PublishBuildArtifacts@1
+  displayName: 'pubish artifacts'
