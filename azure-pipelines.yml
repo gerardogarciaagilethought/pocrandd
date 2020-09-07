@@ -28,7 +28,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: 'src/PocRandD/PocRandD.csproj'
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
+    arguments: '-o $(System.DefaultWorkingDirectory)'
     zipAfterPublish: true
     
 - task: PublishBuildArtifacts@1
