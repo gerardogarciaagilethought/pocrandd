@@ -17,18 +17,20 @@ steps:
 - script: dotnet build $(projPath) --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
   
+# Publish projects to specified folder.
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
   inputs:
     command: publish
     publishWebProjects: false
     projects: '**/*.csproj'
-    arguments: '-o publishpath'
+    arguments: '-o $(Build.ArtifactStagingDirectory)/Output'
     zipAfterPublish: true
     modifyOutputPath: true
 
 - task: AzureRmWebAppDeployment@4
   inputs:
+    azureSubscription: 'e8747b6c-39ad-4039-a5b4-d170ef319068'
     ConnectionType: 'AzureRM'
     appType: 'webAppLinux'
     WebAppName: 'pocranddapp'
