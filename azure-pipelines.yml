@@ -15,3 +15,13 @@ variables:
 steps:
 - script: dotnet build $(projPath) --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    appType: 'webAppLinux'
+    WebAppName: 'pocranddapp'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'rgp-pocrandd'
+    SlotName: 'production'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'DOTNETCORE|3.1'
