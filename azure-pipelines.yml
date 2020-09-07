@@ -18,13 +18,14 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
   
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+  displayName: 'dotnet publish'
   inputs:
-    commands: publish 
+    command: publish
     publishWebProjects: false
-    projects: 'src/PocRandD.Test/PocRandD.Test.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+    projects: '**/*.csproj'
+    arguments: '-o publishpath'
+    zipAfterPublish: false
+    modifyOutputPath: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
