@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  fecha: ''
 
 steps:
 - task: DotNetCoreCLI@2
@@ -20,3 +21,4 @@ steps:
 
 - script: dotnet build src/PocRandD/PocRandD.csproj --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+- script: echo $(Build.BuildNumber)
