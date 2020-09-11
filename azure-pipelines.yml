@@ -34,4 +34,12 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'pubish artifacts'
 
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'cnx-free-poc'
+    appType: 'webAppLinux'
+    WebAppName: 'pocpipelines'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'DOTNETCORE|3.1'
     
