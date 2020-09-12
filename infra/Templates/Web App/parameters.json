@@ -15,7 +15,7 @@
             "value": "asp-pocrandd-2"
         },
         "serverFarmResourceGroup": {
-            "value": "pocrandd"
+            "value": "PruebasPipelinesRG"
         },
         "alwaysOn": {
             "value": false
