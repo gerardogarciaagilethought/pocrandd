@@ -34,11 +34,9 @@ steps:
   displayName: 'pubish artifacts'
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
-    deploymentScope: 'Resource Group'
+    deploymentScope: 'Subscription'
     azureResourceManagerConnection: 'cnx-free-poc'
     subscriptionId: 'd6c2c6fa-eaa9-4d22-bd11-da6eacb13f90'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'PruebasPipelinesRG'
     location: 'South Central US'
     templateLocation: 'Linked artifact'
     csmFile: 'infra/Templates/Web App/template.json'
