@@ -59,6 +59,6 @@ steps:
     azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az group delete --name ''PruebasPipelinesRG'''
+    inlineScript: 'az group delete --name ''PruebasPipelinesRG'' --yes'
     addSpnToEnvironment: true
     useGlobalConfig: true
