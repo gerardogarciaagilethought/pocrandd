@@ -59,6 +59,6 @@ steps:
     azureSubscription: 'cnx-free-poc'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az group delete --name ''PruebasPipelinesRG'' --yes'
+    inlineScript: 'az webapp delete --name ''randdapp'''
     addSpnToEnvironment: true
     useGlobalConfig: true
