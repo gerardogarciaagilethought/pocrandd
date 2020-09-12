@@ -1,0 +1,55 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'src/PocRandD.Test/PocRandD.Test.csproj'
+
+- script: dotnet build src/PocRandD/PocRandD.csproj --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration) output'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'src/PocRandD/PocRandD.csproj'
+    arguments: '-o $(System.DefaultWorkingDirectory)'
+    
+- task: PublishBuildArtifacts@1
+  displayName: 'pubish artifacts'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'cnx-free-poc'
+    subscriptionId: 'd6c2c6fa-eaa9-4d22-bd11-da6eacb13f90'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'PruebasPipelinesRG'
+    location: 'South Central US'
+    templateLocation: 'Linked artifact'
+    csmFile: 'infra/Templates/Web App/template.json'
+    csmParametersFile: 'infra/Templates/Web App/parameters.json'
+    deploymentMode: 'Incremental'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'cnx-free-poc'
+    appType: 'webAppLinux'
+    WebAppName: 'randdapp'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'DOTNETCORE|3.1'
+    
