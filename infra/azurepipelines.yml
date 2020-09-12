@@ -57,6 +57,6 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'cnx-free-poc'
-    scriptType: 'ps'
+    scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: 'az webapp delete --name ''randdapp'''
