@@ -53,4 +53,10 @@ steps:
     WebAppName: 'randdapp'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
     RuntimeStack: 'DOTNETCORE|3.1'
-    
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'cnx-free-poc'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az webapp delete --name ''randdapp'''
