@@ -11,54 +11,89 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  containerRegistry: 'qapocrandd.azurecr.io'
+  imageRepository: 'pocrandd'
+  tag: $(Build.BuildNumber)
 
-steps:
+jobs:
+- job: DevDeploy
+  steps:
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: 'src/PocRandD.Test/PocRandD.Test.csproj'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'test'
+      projects: 'src/PocRandD.Test/PocRandD.Test.csproj'
 
-- script: dotnet build src/PocRandD/PocRandD.csproj --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration) output'
+  - script: dotnet build src/PocRandD/PocRandD.csproj --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration) output'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: 'src/PocRandD/PocRandD.csproj'
-    arguments: '-o $(Build.ArtifactStagingDirectory)'
-    
-- task: PublishBuildArtifacts@1
-  displayName: 'pubish artifacts'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: 'src/PocRandD/PocRandD.csproj'
+      arguments: '-o $(Build.ArtifactStagingDirectory)'
+      
+  - task: PublishBuildArtifacts@1
+    displayName: 'pubish artifacts'
 
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
-    subscriptionId: 'd6c2c6fa-eaa9-4d22-bd11-da6eacb13f90'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'PruebasPipelinesRG'
-    location: 'South Central US'
-    templateLocation: 'Linked artifact'
-    csmFile: 'infra/Templates/Web App/template.json'
-    csmParametersFile: 'infra/Templates/Web App/parameters.json'
-    deploymentMode: 'Incremental'
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
-    appType: 'webAppLinux'
-    WebAppName: 'randdapp'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    RuntimeStack: 'DOTNETCORE|3.1'
+  - task: AzureResourceManagerTemplateDeployment@3
+    inputs:
+      deploymentScope: 'Resource Group'
+      azureResourceManagerConnection: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
+      subscriptionId: 'd6c2c6fa-eaa9-4d22-bd11-da6eacb13f90'
+      action: 'Create Or Update Resource Group'
+      resourceGroupName: 'PruebasPipelinesRG'
+      location: 'South Central US'
+      templateLocation: 'Linked artifact'
+      csmFile: 'infra/Templates/Web App/template.json'
+      csmParametersFile: 'infra/Templates/Web App/parameters.json'
+      deploymentMode: 'Incremental'
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
+      appType: 'webAppLinux'
+      WebAppName: 'randdapp'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+      RuntimeStack: 'DOTNETCORE|3.1'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az group delete --name ''PruebasPipelinesRG'' --yes'
-    addSpnToEnvironment: true
-    useGlobalConfig: true
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az group delete --name ''PruebasPipelinesRG'' --yes'
+      addSpnToEnvironment: true
+      useGlobalConfig: true
+
+- job: build
+  steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'qapocrandd'
+        repository: $(imageRepository)
+        command: 'buildAndPush'
+        Dockerfile: 'src/Dockerfile'
+        tags: 
+          $(tag)
+
+    - publish: manifests
+      artifact: manifests
+- deployment: Deploy
+  displayName: Deploy
+  dependsOn: build
+  environment: 'pocrandd.default'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy to kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/pocrandd.yml
+              containers: |
+                  $(containerRegistry)/$(imageRepository):$(tag)
