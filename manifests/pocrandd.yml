@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: pocrandd
-        image: qapocrandd.azurecr.io/wasmapp:v1
+        image: qapocrandd.azurecr.io/pocrandd:v1
         resources:
           limits:
             memory: "128Mi"
