@@ -94,7 +94,5 @@ jobs:
             displayName: Deploy to kubernetes cluster
             inputs:
               action: 'deploy'
-#              kubernetesServiceConnection: 'qaakspocrandd-qaakspocrandd-default-1600709965084'
-#              namespace: 'default'
               manifests: '$(Pipeline.Workspace)/manifests/pocrandd.yml'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
