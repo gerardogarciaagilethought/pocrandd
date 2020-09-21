@@ -14,7 +14,10 @@ variables:
   containerRegistry: 'qapocrandd.azurecr.io'
   imageRepository: 'pocrandd'
   tag: $(Build.BuildNumber)
-
+  env: 'qa'
+  prj: 'pocrandd'
+  loc: 'southcentralus'
+  sid: 'd6c2c6fa-eaa9-4d22-bd11-da6eacb13f90'
 jobs:
 - job: DevDeploy
   steps:
@@ -67,7 +70,18 @@ jobs:
       inlineScript: 'az group delete --name ''PruebasPipelinesRG'' --yes'
       addSpnToEnvironment: true
       useGlobalConfig: true
-
+- job: provisioning
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+    - task: AzureCLI@2
+      displayName: Create AKSResources
+      inputs:
+        azureSubscription: 'Free Trial(d6c2c6fa-eaa9-4d22-bd11-da6eacb13f90)'
+        scriptType: 'ps'
+        scriptLocation: 'scriptPath'
+        scriptPath: 'infra/infrapocrandd.ps1'
+        arguments: '$(env) $(prj) $(loc) $(sid)'
 - job: build
   steps:
     - task: Docker@2
