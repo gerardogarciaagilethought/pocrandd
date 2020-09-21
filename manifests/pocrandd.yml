@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: pocrandd-deploy
 spec:
+  replicas: 4
   selector:
     matchLabels:
       app: pocrandd-pod
