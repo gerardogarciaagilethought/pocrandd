@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  containerRegistry: 'qapocrandd.azurecr.io'
+  containerRegistry: 'qaacrpocrandd.azurecr.io'
   imageRepository: 'pocrandd'
   tag: $(Build.BuildNumber)
   env: 'qa'
