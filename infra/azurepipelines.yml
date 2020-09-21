@@ -82,6 +82,7 @@ jobs:
 
     - publish: manifests
       artifact: manifests
+      
 - deployment: Deploy
   displayName: Deploy
   dependsOn: build
