@@ -27,8 +27,11 @@ kind: Service
 metadata:
   name: pocrandd-svc
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
+  type: ClusterIP
   selector:
     app: pocrandd-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  
