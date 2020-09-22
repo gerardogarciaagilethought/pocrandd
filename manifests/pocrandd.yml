@@ -18,7 +18,7 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "250m"
         ports:
         - containerPort: 80
 ---
@@ -27,11 +27,8 @@ kind: Service
 metadata:
   name: pocrandd-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: pocrandd-pod
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  
+  - port: 80
